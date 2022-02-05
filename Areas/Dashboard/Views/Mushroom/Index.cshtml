@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Atlas.Models.ViewModels.MushroomsListVM>
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h1>Lista grzybów w bazie danych</h1>
+
+
+@{          
+    foreach(var item in Model)
+    { 
+        <p>@item.Name</p>
+    }
+}
+
+
+
+
+<a asp-action="Create" asp-controller="Mushroom" asp-area="Dashboard">Utwórz Nowy</a>
