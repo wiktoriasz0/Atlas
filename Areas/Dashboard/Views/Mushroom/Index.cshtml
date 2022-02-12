@@ -1,21 +1,20 @@
 ﻿@model IEnumerable<Atlas.Models.ViewModels.MushroomsListVM>
 
-@{
-    ViewData["Title"] = "Index";
-
-}
-
 <h1>Lista grzybów w bazie danych</h1>
 
 
-@{          
-    foreach(var item in Model)
-    { 
-        <p>@item.Name</p>
-    }
-}
+<table>
+    <thead>
+        <tr><td>Nazwa grzyba</td><td>Akcje</td></tr>
+    </thead>
+    <tbody>
 
-
-
-
-<a asp-action="Create" asp-controller="Mushroom" asp-area="Dashboard">Utwórz Nowy</a>
+        @{
+            foreach (var item in Model)
+            {
+                <tr><td>@item.Name</td>
+                <td><a asp-area="Dashboard" asp-controller="Mushroom" asp-action="Delete" asp-route-ID="@item.ID">usuń</a> | edytuj</td></tr>
+            }
+        }
+    </tbody>
+</table>
