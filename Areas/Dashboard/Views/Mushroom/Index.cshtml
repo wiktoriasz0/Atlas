@@ -12,9 +12,17 @@
         @{
             foreach (var item in Model)
             {
-                <tr><td>@item.Name</td>
-                <td><a asp-area="Dashboard" asp-controller="Mushroom" asp-action="Delete" asp-route-ID="@item.ID">usuń</a> | edytuj</td></tr>
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                    <a asp-area="Dashboard" asp-controller="Mushroom" asp-action="Delete" asp-route-ID="@item.ID">usuń</a> |
+                    <a asp-area="Dashboard" asp-controller="Mushroom" asp-action="Update" asp-route-ID="@item.ID">edytuj</a>
+                    </td>
+                </tr>
             }
         }
     </tbody>
 </table>
+
+
+<a asp-action="Create" asp-controller="Mushroom" asp-area="Dashboard">Utwórz Nowy</a>
