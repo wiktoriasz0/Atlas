@@ -8,6 +8,7 @@ namespace Atlas.Models.ViewModels
 {
     public class MushroomVM
     {
+        public string ID { get; set; }
         /// <summary>
         /// Nazwa grzyba
         /// </summary>

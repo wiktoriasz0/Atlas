@@ -97,9 +97,36 @@ namespace Atlas.Areas.Dashboard.Controllers
                 Description = mushroom.Description,
                 Edibility = mushroom.Edibility,
                 Family = mushroom.Family,
+                Genre = mushroom.Genre,
+                Kind = mushroom.Kind,
+                LatinName = mushroom.LatinName,
+                Name = mushroom.Name,
+                Occurence = mushroom.Occurence,
+                ID = mushroom.ID.ToString()
             };
 
-            return View(); // wypełniony formularz z danymi wybranego grzyba
+            return View(model); // wypełniony formularz z danymi wybranego grzyba
+        }
+        [HttpPost]
+        [Route("/Pulpit/Grzyby/Edycja")]
+        public IActionResult Update(MushroomVM model)
+        {
+            Mushroom mushroom = _context.Mushrooms.FirstOrDefault(x => x.ID == Guid.Parse(model.ID));
+            
+            mushroom.Name = model.Name;
+            mushroom.Description = model.Description;
+            mushroom.Edibility = model.Edibility;
+            mushroom.Family = model.Family;
+            mushroom.Genre = model.Genre;
+            mushroom.Kind = model.Kind;
+            mushroom.LatinName = model.LatinName;
+            mushroom.Occurence = model.Occurence;
+
+            _context.Mushrooms.Update(mushroom);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+            
         }
     }
 }
