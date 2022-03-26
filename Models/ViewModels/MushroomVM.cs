@@ -30,6 +30,7 @@ namespace Atlas.Models.ViewModels
         public string Occurence { get; set; }
         public string Family { get; set; }
         public string Kind { get; set; }
+        [Display(Name="Gatunek grzyba:")]
         public string Genre { get; set; }
     }
 }

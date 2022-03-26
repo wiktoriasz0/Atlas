@@ -1,25 +1,14 @@
 ﻿@model IEnumerable<Atlas.Models.ViewModels.MushroomsListVM>
-@{
-    ViewData["Title"] = "Home Page";
-}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<table>
-    <thead>
-        <tr><td>Grzyby</td></tr>
-    </thead>
-    <tbody>
+<h1>Nasze Grzybki</h1>
 
-        @{
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+<ul>
+
+    @foreach (var item in Model)
+    {
+        <li><a asp-area="" asp-action="Detail" asp-route-id="@item.ID">@item.Name</a></li>
+    }
+
+
+
+</ul>

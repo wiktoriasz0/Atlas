@@ -1,6 +1,7 @@
 ﻿using Atlas.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Atlas.Models.ViewModels;
 
 namespace Atlas.Data
 {
@@ -13,5 +14,6 @@ namespace Atlas.Data
 
         public DbSet<Mushroom> Mushrooms { get; set; }
         public DbSet<Occurence> Occurences { get; set; }
+        
     }
 }

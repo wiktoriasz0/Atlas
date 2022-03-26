@@ -15,6 +15,7 @@ namespace Atlas.Models
         public string Kind { get; set; }
         public string Genre { get; set; }
         public DateTime Create { get; set; }
-        public DateTime Update { get; set; }        
+        public DateTime Update { get; set; }
+        public string Url { get; set; }
     }
 }
