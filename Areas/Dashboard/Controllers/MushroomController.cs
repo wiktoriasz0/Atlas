@@ -74,13 +74,12 @@ namespace Atlas.Areas.Dashboard.Controllers
             newMushroom.LatinName = model.LatinName;
             newMushroom.Occurence = model.Occurence;
             newMushroom.Create = DateTime.Now;
+            newMushroom.Url = PrepareUrl(model.Name);
 
             _context.Mushrooms.Add(newMushroom);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-            //return View(); 
-
         }
 
 
@@ -126,7 +125,58 @@ namespace Atlas.Areas.Dashboard.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-            
         }
+
+        private string PrepareUrl(string name)
+        {
+            if (String.IsNullOrEmpty(name)) // zamiast name == ""
+                return String.Empty;
+           
+            string url = name.ToLower(); // zamiana duzych liter na małe, ToUpper na duże
+
+
+            // Pieczarka łąkowa
+
+            string[,] literyDoZamiany = {
+                { " ", "-" },
+                { "ó", "o" },
+                { "ą", "a" },
+                { "ę", "e" },
+                { "ś", "s" },
+                { "ł", "l" },
+                { "ż", "z" },
+                { "ź", "z" },
+                { "ć", "c" },
+                { "ń", "n" },
+                { "!", "" },
+                { "@", "" },
+                { "#", "" },
+                { "$", "" },
+                { "%", "" },
+                { "^", "" },
+                { "&", "" },
+                { "*", "" },
+                { "(", "" },
+                { ")", "" },
+                { "_", "" },
+                { "+", "" },
+                { "=", "" },
+                { ";", "" },
+                { "'", "" },
+                { ",", "" },
+                { ".", "" },
+                { "?", "" },
+                { "|", "" },
+                { "/", "" },
+                { "\\", "" },
+            };
+
+            for (int i = 0; i < 31; i++)
+            {
+                url = url.Replace(literyDoZamiany[i,0], literyDoZamiany[i,1]);
+            }
+            return url;
+        }
+
     }
 }
