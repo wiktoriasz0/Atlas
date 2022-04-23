@@ -29,16 +29,20 @@ namespace Atlas.Controllers
                 MushroomsListVM oneName = new(); // tworzę nowy obiekt typu MushroomListVM, obiekt o nazwie oneName
                 oneName.Name = item.Name;// do obiektu oneName do pola Name wpisuję wartość pola Name z obiektu item
                 oneName.ID = item.ID.ToString();
+                oneName.Url = item.Url;
                 nameOnly.Add(oneName); // dodaję do listy nameOnly obiekt 'onename' utworzony 2 linijki wcześniej
             }
 
             return View(nameOnly);  // widok listy grzybów
         }
 
-        [Route("/Grzyb/{id}")]
-        public IActionResult Detail(string id)
+        [Route("/Grzyb/{url}")]
+        public IActionResult Detail(string url)
         {
-            Mushroom mushroom = _context.Mushrooms.FirstOrDefault(x => x.ID == Guid.Parse(id));
+            Mushroom mushroom = _context.Mushrooms.FirstOrDefault(x => x.Url == url);
+
+            if (mushroom == null)
+                return View("NoMushroom");
 
             MushroomVM model = new()
             {

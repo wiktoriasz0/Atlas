@@ -3,12 +3,8 @@
 <h1>Nasze Grzybki</h1>
 
 <ul>
-
     @foreach (var item in Model)
     {
-        <li><a asp-area="" asp-action="Detail" asp-route-id="@item.ID">@item.Name</a></li>
+        <li><a asp-area="" asp-action="Detail" asp-route-url="@item.Url">@item.Name</a></li>
     }
-
-
-
 </ul>
