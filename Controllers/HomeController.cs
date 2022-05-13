@@ -53,7 +53,6 @@ namespace Atlas.Controllers
                 Kind = mushroom.Kind,
                 LatinName = mushroom.LatinName,
                 Name = mushroom.Name,
-                Occurence = mushroom.Occurence,
                 ID = mushroom.ID.ToString()
             };
 

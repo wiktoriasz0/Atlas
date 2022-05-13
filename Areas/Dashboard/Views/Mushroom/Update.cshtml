@@ -28,15 +28,24 @@
                     <input class="form-check-input" asp-for="Edibility" /> @Html.DisplayNameFor(model => model.Edibility)
                 </label>
             </div>
+            <div>
+                <h2>Występowanie</h2>
+
+                @foreach (var item in Model.Occurences)
+                {
+                    <label>
+                        <input type="checkbox" id="@item.ID" name="occurences" value="@item.Name"/>
+                        @item.Name
+                    </label>
+                }
+
+
+
+            </div>
             <div class="form-group">
                 <label asp-for="LatinName" class="control-label"></label>
                 <input asp-for="LatinName" class="form-control" />
                 <span asp-validation-for="LatinName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Occurence" class="control-label"></label>
-                <input asp-for="Occurence" class="form-control" />
-                <span asp-validation-for="Occurence" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Family" class="control-label"></label>

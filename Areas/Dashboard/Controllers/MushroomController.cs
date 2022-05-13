@@ -72,7 +72,6 @@ namespace Atlas.Areas.Dashboard.Controllers
             newMushroom.Genre = model.Genre;
             newMushroom.Kind = model.Kind;
             newMushroom.LatinName = model.LatinName;
-            newMushroom.Occurence = model.Occurence;
             newMushroom.Create = DateTime.Now;
             newMushroom.Url = PrepareUrl(model.Name);
 
@@ -81,8 +80,6 @@ namespace Atlas.Areas.Dashboard.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-
 
 
         [Route("/Pulpit/Grzyby/Edycja/{id}")]
@@ -100,16 +97,27 @@ namespace Atlas.Areas.Dashboard.Controllers
                 Kind = mushroom.Kind,
                 LatinName = mushroom.LatinName,
                 Name = mushroom.Name,
-                Occurence = mushroom.Occurence,
-                ID = mushroom.ID.ToString()
+                ID = mushroom.ID.ToString(),
+                Occurences = _context.Occurences.ToList(),
             };
 
             return View(model); // wypełniony formularz z danymi wybranego grzyba
         }
+
         [HttpPost]
         [Route("/Pulpit/Grzyby/Edycja")]
         public IActionResult Update(MushroomVM model)
         {
+            if (!ModelState.IsValid) 
+            {
+                model.Occurences = _context.Occurences.ToList();
+                return View(model);
+            }
+
+            
+            var checkboxy = Request.Form["occurences"];
+
+
             Mushroom mushroom = _context.Mushrooms.FirstOrDefault(x => x.ID == Guid.Parse(model.ID));
             
             mushroom.Name = model.Name;
@@ -119,7 +127,6 @@ namespace Atlas.Areas.Dashboard.Controllers
             mushroom.Genre = model.Genre;
             mushroom.Kind = model.Kind;
             mushroom.LatinName = model.LatinName;
-            mushroom.Occurence = model.Occurence;
 
             _context.Mushrooms.Update(mushroom);
             _context.SaveChanges();

@@ -4,14 +4,16 @@ using Atlas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Atlas.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220430080431_createTableMushroomInOccurence2")]
+    partial class createTableMushroomInOccurence2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,6 +54,9 @@ namespace Atlas.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Occurence")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Update")
                         .HasColumnType("datetime2");
 
@@ -76,10 +81,6 @@ namespace Atlas.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("MushroomID");
-
-                    b.HasIndex("OccurenceID");
 
                     b.ToTable("MushroomInOccurences");
                 });
@@ -298,21 +299,6 @@ namespace Atlas.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Atlas.Models.MushroomInOccurence", b =>
-                {
-                    b.HasOne("Atlas.Models.Mushroom", null)
-                        .WithMany("MushroomInOccurence")
-                        .HasForeignKey("MushroomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Atlas.Models.Occurence", null)
-                        .WithMany("MushroomInOccurences")
-                        .HasForeignKey("OccurenceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -362,16 +348,6 @@ namespace Atlas.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Atlas.Models.Mushroom", b =>
-                {
-                    b.Navigation("MushroomInOccurence");
-                });
-
-            modelBuilder.Entity("Atlas.Models.Occurence", b =>
-                {
-                    b.Navigation("MushroomInOccurences");
                 });
 #pragma warning restore 612, 618
         }

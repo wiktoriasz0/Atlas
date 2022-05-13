@@ -14,6 +14,6 @@ namespace Atlas.Data
 
         public DbSet<Mushroom> Mushrooms { get; set; }
         public DbSet<Occurence> Occurences { get; set; }
-        
+        public DbSet<MushroomInOccurence> MushroomInOccurences { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Atlas.Models.ViewModels
         /// <summary>
         /// Nazwa grzyba
         /// </summary>
-        [Required]
+        [Required (ErrorMessage = "Wpisz nazwę grzyba")]
         public string Name { get; set; }
 
         /// <summary>
@@ -24,13 +24,12 @@ namespace Atlas.Models.ViewModels
         [Required]
         public string LatinName { get; set; }
 
-        /// <summary>
-        /// Wystepowanie
-        /// </summary>
-        public string Occurence { get; set; }
+        [Required]
         public string Family { get; set; }
         public string Kind { get; set; }
         [Display(Name="Gatunek grzyba:")]
         public string Genre { get; set; }
+
+        public List<Occurence> Occurences { get; set; }
     }
 }
