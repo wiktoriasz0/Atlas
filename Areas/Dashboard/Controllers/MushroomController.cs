@@ -113,12 +113,34 @@ namespace Atlas.Areas.Dashboard.Controllers
                 model.Occurences = _context.Occurences.ToList();
                 return View(model);
             }
-
             
             var checkboxy = Request.Form["occurences"];
+            var occurences = _context.Occurences.ToList();
+
+            List<MushroomInOccurence> inOccurences = new();
+
+            foreach (var item in occurences)
+            {
+                if (checkboxy.Contains(item.Name))
+                {
+                    MushroomInOccurence mushroomInOccurence = new()
+                    {
+                        ID = Guid.NewGuid(),
+                        OccurenceID = item.ID,
+                        MushroomID = Guid.Parse(model.ID)
+                    };
+
+                    inOccurences.Add(mushroomInOccurence);
+                }
+            }
+
+            if(inOccurences.Any())
+            {
+                _context.MushroomInOccurences.AddRange(inOccurences);
+            }
 
 
-            Mushroom mushroom = _context.Mushrooms.FirstOrDefault(x => x.ID == Guid.Parse(model.ID));
+            Mushroom mushroom = _context.Mushrooms.FirstOrDefault(grzyb => grzyb.ID == Guid.Parse(model.ID));
             
             mushroom.Name = model.Name;
             mushroom.Description = model.Description;
