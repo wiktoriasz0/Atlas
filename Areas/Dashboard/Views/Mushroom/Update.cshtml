@@ -31,11 +31,11 @@
             <div>
                 <h2>Występowanie</h2>
 
-                @foreach (var item in Model.Occurences)
+                @foreach (var item in Model.MushroomOccurences)
                 {
                     <label>
-                        <input type="checkbox" id="@item.ID" name="occurences" value="@item.Name"/>
-                        @item.Name
+                        <input type="checkbox" id="@item.OccurenceId" name="occurences" value="@item.OccurenceName" checked="@item.IsChecked"/>
+                        @item.OccurenceName
                     </label>
                 }
 

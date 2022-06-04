@@ -18,5 +18,6 @@ namespace Atlas.Models
         public DateTime Update { get; set; }
         public string Url { get; set; }
         public List<MushroomInOccurence> MushroomInOccurence { get; set; }
+        public string Image { get; set; }
     }
 }

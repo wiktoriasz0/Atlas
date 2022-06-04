@@ -4,6 +4,7 @@ using Atlas.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -63,6 +64,25 @@ namespace Atlas.Areas.Dashboard.Controllers
         // utworzenie nowego wpisu - dodanie grzyba do bazy
         public IActionResult Create(MushroomVM model)
         {
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+
+            var fileType = model.Image.ContentType;
+            string fileName = model.Image.FileName;
+
+            string pathToFile = Path.Combine(path, fileName);
+
+            using(var stream= new FileStream(pathToFile, FileMode.Create))
+            {
+                model.Image.CopyTo(stream);
+            }
+
+
+            /*
+
             Mushroom newMushroom = new();
             newMushroom.ID = Guid.NewGuid(); //nowy identyfikator typu GUID
             newMushroom.Name = model.Name;
@@ -77,7 +97,7 @@ namespace Atlas.Areas.Dashboard.Controllers
 
             _context.Mushrooms.Add(newMushroom);
             _context.SaveChanges();
-
+            */
             return RedirectToAction(nameof(Index));
         }
 
@@ -98,11 +118,41 @@ namespace Atlas.Areas.Dashboard.Controllers
                 LatinName = mushroom.LatinName,
                 Name = mushroom.Name,
                 ID = mushroom.ID.ToString(),
-                Occurences = _context.Occurences.ToList(),
+                MushroomOccurences = CheckOccurence(mushroom.ID),
             };
 
             return View(model); // wypełniony formularz z danymi wybranego grzyba
         }
+
+        private List<MushroomOccurenceVM> CheckOccurence(Guid Id)
+        {
+            List<MushroomOccurenceVM> result = new();
+            var occurences = _context.Occurences.ToList();
+
+            foreach (var item in occurences)
+            {
+                MushroomOccurenceVM resultItem = new();
+                resultItem.OccurenceId = item.ID.ToString();
+                resultItem.OccurenceName = item.Name;
+                resultItem.IsChecked = CheckList(Id, item.ID);
+
+                result.Add(resultItem);
+            }
+            return result;
+        }
+
+        private bool CheckList(Guid mushroomId, Guid occurenceId)
+        {
+            bool result = false;
+            var mushroomInOccurences = _context.MushroomInOccurences.Where(grzyb => grzyb.MushroomID == mushroomId).ToList();
+
+            var item = mushroomInOccurences.FirstOrDefault(x => x.OccurenceID == occurenceId);
+            if(item != null)
+                result = true;
+
+            return result;
+        }
+
 
         [HttpPost]
         [Route("/Pulpit/Grzyby/Edycja")]
@@ -110,10 +160,11 @@ namespace Atlas.Areas.Dashboard.Controllers
         {
             if (!ModelState.IsValid) 
             {
-                model.Occurences = _context.Occurences.ToList();
+                //model.MushroomOccurences = CheckOccurence();
                 return View(model);
             }
-            
+            ClerMushroomInOccurences(model.ID);
+
             var checkboxy = Request.Form["occurences"];
             var occurences = _context.Occurences.ToList();
 
@@ -156,6 +207,16 @@ namespace Atlas.Areas.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        private void ClerMushroomInOccurences(string mushroomId)
+        {
+            var temp = _context.MushroomInOccurences.Where(x => x.MushroomID == Guid.Parse(mushroomId));
+            if (temp.Any())
+            {
+                _context.MushroomInOccurences.RemoveRange(temp);
+                _context.SaveChanges();
+            }
+
+        }
         private string PrepareUrl(string name)
         {
             if (String.IsNullOrEmpty(name)) // zamiast name == ""

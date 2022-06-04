@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace Atlas.Models.ViewModels
         [Display(Name="Gatunek grzyba:")]
         public string Genre { get; set; }
 
-        public List<Occurence> Occurences { get; set; }
+        public List<MushroomOccurenceVM> MushroomOccurences { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 }
