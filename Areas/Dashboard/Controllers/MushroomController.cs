@@ -71,7 +71,14 @@ namespace Atlas.Areas.Dashboard.Controllers
 
 
             var fileType = model.Image.ContentType;
-            string fileName = model.Image.FileName;
+            string orginalFileName = model.Image.FileName;
+
+            int miejsceOstatniejKropki = orginalFileName.LastIndexOf('.');
+
+            string nazwaWlasciwa = orginalFileName.Substring(0, miejsceOstatniejKropki);
+            string rozszerzenie = orginalFileName.Substring(miejsceOstatniejKropki);
+
+            string fileName = String.Concat(PrepareUrl(nazwaWlasciwa), rozszerzenie);
 
             string pathToFile = Path.Combine(path, fileName);
 
@@ -79,10 +86,7 @@ namespace Atlas.Areas.Dashboard.Controllers
             {
                 model.Image.CopyTo(stream);
             }
-
-
-            /*
-
+            
             Mushroom newMushroom = new();
             newMushroom.ID = Guid.NewGuid(); //nowy identyfikator typu GUID
             newMushroom.Name = model.Name;
@@ -94,10 +98,11 @@ namespace Atlas.Areas.Dashboard.Controllers
             newMushroom.LatinName = model.LatinName;
             newMushroom.Create = DateTime.Now;
             newMushroom.Url = PrepareUrl(model.Name);
+            newMushroom.Image = fileName;
 
             _context.Mushrooms.Add(newMushroom);
             _context.SaveChanges();
-            */
+            
             return RedirectToAction(nameof(Index));
         }
 
