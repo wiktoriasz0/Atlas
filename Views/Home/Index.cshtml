@@ -5,6 +5,10 @@
 <ul>
     @foreach (var item in Model)
     {
-        <li><a asp-area="" asp-action="Detail" asp-route-url="@item.Url">@item.Name</a></li>
+        <li>
+            <a asp-area="" asp-action="Detail" asp-route-url="@item.Url">
+                <img src="~/img/@item.Image" alt="tutaj powinien być obrazek">
+            @item.Name</a>
+        </li>
     }
 </ul>

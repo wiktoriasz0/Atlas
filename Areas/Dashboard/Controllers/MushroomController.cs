@@ -124,6 +124,7 @@ namespace Atlas.Areas.Dashboard.Controllers
                 Name = mushroom.Name,
                 ID = mushroom.ID.ToString(),
                 MushroomOccurences = CheckOccurence(mushroom.ID),
+                ImageName = mushroom.Image
             };
 
             return View(model); // wypełniony formularz z danymi wybranego grzyba
@@ -195,6 +196,26 @@ namespace Atlas.Areas.Dashboard.Controllers
                 _context.MushroomInOccurences.AddRange(inOccurences);
             }
 
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            //var fileType = model.Image.ContentType;
+            string orginalFileName = model.Image.FileName;
+
+            int miejsceOstatniejKropki = orginalFileName.LastIndexOf('.');
+
+            string nazwaWlasciwa = orginalFileName.Substring(0, miejsceOstatniejKropki);
+            string rozszerzenie = orginalFileName.Substring(miejsceOstatniejKropki);
+
+            string fileName = String.Concat(PrepareUrl(nazwaWlasciwa), rozszerzenie);
+
+            string pathToFile = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(pathToFile, FileMode.Create))
+            {
+                model.Image.CopyTo(stream);
+            }
 
             Mushroom mushroom = _context.Mushrooms.FirstOrDefault(grzyb => grzyb.ID == Guid.Parse(model.ID));
             
@@ -205,6 +226,7 @@ namespace Atlas.Areas.Dashboard.Controllers
             mushroom.Genre = model.Genre;
             mushroom.Kind = model.Kind;
             mushroom.LatinName = model.LatinName;
+            mushroom.Image = fileName;
 
             _context.Mushrooms.Update(mushroom);
             _context.SaveChanges();

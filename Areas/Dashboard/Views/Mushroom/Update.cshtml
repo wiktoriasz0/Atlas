@@ -6,11 +6,13 @@
 
 <h1>Edycja Grzyba: @Model.Name</h1>
 
+<img src="~/img/@Model.ImageName" alt="miejsce na obrazek" />
+
 <div class="row">
     <div class="col-md-4">
-        <form action="/Pulpit/Grzyby/Edycja" method="post">
+        <form action="/Pulpit/Grzyby/Edycja" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <input asp-for="ID" type="hidden" />
 
             <div class="form-group">
@@ -34,7 +36,7 @@
                 @foreach (var item in Model.MushroomOccurences)
                 {
                     <label>
-                        <input type="checkbox" id="@item.OccurenceId" name="occurences" value="@item.OccurenceName" checked="@item.IsChecked"/>
+                        <input type="checkbox" id="@item.OccurenceId" name="occurences" value="@item.OccurenceName" checked="@item.IsChecked" />
                         @item.OccurenceName
                     </label>
                 }
@@ -61,6 +63,10 @@
                 <label asp-for="Genre" class="control-label"></label>
                 <input asp-for="Genre" class="form-control" />
                 <span asp-validation-for="Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image">Wybierz ilustrację:</label>
+                <input asp-for="Image" accept="image/*" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Zapisz Zmiany" class="btn btn-primary" />

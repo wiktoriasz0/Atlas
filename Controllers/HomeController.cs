@@ -30,6 +30,7 @@ namespace Atlas.Controllers
                 oneName.Name = item.Name;// do obiektu oneName do pola Name wpisuję wartość pola Name z obiektu item
                 oneName.ID = item.ID.ToString();
                 oneName.Url = item.Url;
+                oneName.Image = item.Image;
                 nameOnly.Add(oneName); // dodaję do listy nameOnly obiekt 'onename' utworzony 2 linijki wcześniej
             }
 
@@ -53,7 +54,8 @@ namespace Atlas.Controllers
                 Kind = mushroom.Kind,
                 LatinName = mushroom.LatinName,
                 Name = mushroom.Name,
-                ID = mushroom.ID.ToString()
+                ID = mushroom.ID.ToString(),
+                ImageName = mushroom.Image
             };
 
             return View(model); // wypełniony formularz z danymi wybranego grzyba
